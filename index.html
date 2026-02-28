@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE AI LANDSCAPE: 2026 FULL REPORT</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --blue: #1736F5;
+            --yellow: #FFC709;
+            --gray: #808080;
+            --light: #DEDEDE;
+            --dark: #1a1a1a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif; }
+        body { background-color: #fff; color: var(--dark); line-height: 1.4; }
+
+        /* Typography */
+        header { padding: 120px 20px 80px; text-align: center; border-bottom: 1px solid var(--light); }
+        header h1 { font-size: 6rem; font-weight: 900; letter-spacing: -5px; color: var(--blue); line-height: 0.8; margin-bottom: 25px; text-transform: uppercase; }
+        header p { font-size: 1.5rem; color: var(--gray); max-width: 800px; margin: 0 auto; font-weight: 300; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+        /* Sections */
+        .section-header { margin-top: 100px; margin-bottom: 50px; display: flex; align-items: baseline; gap: 20px; }
+        .section-num { font-size: 4rem; font-weight: 900; color: var(--yellow); opacity: 0.5; }
+        .section-title { font-size: 3rem; font-weight: 900; letter-spacing: -2px; text-transform: uppercase; }
+
+        /* Visual Components */
+        .viz-block { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 120px; }
+        .viz-desc h3 { font-size: 2.2rem; font-weight: 800; margin-bottom: 20px; color: var(--blue); }
+        .viz-desc p { font-size: 1.2rem; color: var(--gray); margin-bottom: 20px; }
+        
+        .chart-box { position: relative; width: 100%; height: 500px; }
+        
+        /* Specialized Cards */
+        .infographic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 80px; }
+        .info-card { padding: 40px; border: 2px solid var(--light); border-radius: 4px; transition: 0.3s; }
+        .info-card:hover { border-color: var(--blue); background: #fafafa; }
+        .info-card h2 { font-size: 5rem; font-weight: 900; color: var(--blue); margin-bottom: 10px; }
+        .info-card h4 { font-size: 1.2rem; font-weight: 800; margin-bottom: 15px; }
+
+        .bubble-text { background: var(--blue); color: white; padding: 6px 12px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; }
+
+        footer { padding: 100px 40px; background: var(--dark); color: #fff; text-align: center; }
+
+        @media (max-width: 900px) {
+            header h1 { font-size: 3.5rem; letter-spacing: -2px; }
+            .viz-block { grid-template-columns: 1fr; gap: 40px; }
+            .viz-block:nth-child(even) { direction: ltr; }
+            .chart-box { height: 400px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="scrub">
+        <h1>THE AI<br>REPORT</h1>
+        <p>A deep-dive visual investigation into Pew Research Center's 2026 study of 1,458 U.S. teens and their parents.</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="section-header scrub">
+            <span class="section-num">01</span>
+            <h2 class="section-title">Use Cases</h2>
+        </div>
+        
+        <div class="viz-block">
+            <div class="viz-desc scrub">
+                <h3>The Spectrum of Adoption</h3>
+                <p>Teens are treating AI as a "Universal Assistant." While 57% use it for <strong>Information Seeking</strong>, the long-tail includes everything from <strong>Content Creation (38%)</strong> to <strong>Emotional Support (12%)</strong>.</p>
+                <p>The "Rose" visualization shows the radial density of these different life-integrations.</p>
+            </div>
+            <div class="viz-chart">
+                <div class="chart-box"><canvas id="adoptionRose"></canvas></div>
+            </div>
+        </div>
+
+        <div class="section-header scrub">
+            <span class="section-num">02</span>
+            <h2 class="section-title">The Classroom</h2>
+        </div>
+
+        <div class="infographic-grid scrub">
+            <div class="info-card">
+                <h2>59%</h2>
+                <h4>Cheating Normalization</h4>
+                <p>Teens say AI cheating is a regular occurrence at school. 34% say it happens "Extremely Often."</p>
+            </div>
+            <div class="info-card" style="background: var(--yellow); border: none;">
+                <h2 style="color: var(--dark);">20%</h2>
+                <h4 style="color: var(--dark);">The Income Reliance</h4>
+                <p style="color: var(--dark);">Teens in households earning <$30k are 3x more likely to do "all or most" work with AI than those earning $75k+.</p>
+            </div>
+            <div class="info-card">
+                <h2 style="color: var(--gray);">1 in 10</h2>
+                <h4>Heavy Users</h4>
+                <p>10% of all teens now complete "all or most" of their school assignments using AI chatbots.</p>
+            </div>
+        </div>
+
+        <div class="section-header scrub">
+            <span class="section-num">03</span>
+            <h2 class="section-title">The Value Gap</h2>
+        </div>
+
+        <div class="viz-block" style="direction: rtl;">
+            <div class="viz-desc scrub" style="direction: ltr;">
+                <h3>Humanity's Edge</h3>
+                <p>Teens see a clear hierarchy. AI wins at <strong>Teaching Skills (34% Better)</strong>, but loses heavily in <strong>Hiring (47% Worse)</strong> and <strong>Medical Diagnosis (38% Worse)</strong>.</p>
+                <p>The Diverging Chart tracks where teens trust the algorithm—and where they don't.</p>
+            </div>
+            <div class="viz-chart">
+                <div class="chart-box"><canvas id="divergingChart"></canvas></div>
+            </div>
+        </div>
+
+        <div class="section-header scrub">
+            <span class="section-num">04</span>
+            <h2 class="section-title">Demographics</h2>
+        </div>
+
+        <div class="viz-block">
+            <div class="viz-desc scrub">
+                <h3>The Cultural Divide</h3>
+                <p>Black and Hispanic teens lead the way in using AI for <strong>Searching Information (61%)</strong> and <strong>News (29%)</strong>, significantly outpacing their White peers.</p>
+                <p>Usage is not a monolith; it is shaped by race, ethnicity, and gender identity.</p>
+            </div>
+            <div class="viz-chart">
+                <div class="chart-box"><canvas id="demoRadar"></canvas></div>
+            </div>
+        </div>
+
+        <div class="section-header scrub">
+            <span class="section-num">05</span>
+            <h2 class="section-title">Boundaries</h2>
+        </div>
+
+        <div class="viz-block" style="direction: rtl;">
+            <div class="viz-desc scrub" style="direction: ltr;">
+                <h3>The Empathy Wall</h3>
+                <p>Parents are "OK" with AI as a tool, but "NOT OK" with AI as a companion. 58% reject AI for <strong>Emotional Support</strong>, and 45% reject it for <strong>Casual Conversation</strong>.</p>
+            </div>
+            <div class="viz-chart">
+                <div class="chart-box"><canvas id="boundaryChart"></canvas></div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="scrub">
+        <p>PEW RESEARCH CENTER | HOW TEENS USE AND VIEW AI | REPORT RELEASED FEB 2026</p>
+    </footer>
+
+    <script>
+        // 1. THE AUTOMATIC GHOST CLEANER
+        // This hunts down tags and erases them so the beautiful UI is clean.
+        function scrub() {
+            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+            let node;
+            while (node = walker.nextNode()) {
+                node.nodeValue = node.nodeValue.replace(/\]*\]/g, '').replace(/\[cite_start\]/g, '');
+            }
+        }
+        window.onload = scrub;
+
+        // 2. CHART GENERATION
+        const blue = '#1736F5', yellow = '#FFC709', gray = '#808080', light = '#DEDEDE';
+
+        // Adoption Rose (Polar Area)
+        new Chart(document.getElementById('adoptionRose'), {
+            type: 'polarArea',
+            data: {
+                labels: ['Info', 'School', 'Fun', 'Summarize', 'Media', 'News', 'Support'],
+                datasets: [{
+                    data: [57, 54, 47, 42, 38, 19, 12],
+                    backgroundColor: [blue, yellow, gray, blue+'88', yellow+'88', gray+'88', '#000'],
+                    borderWidth: 3,
+                    borderColor: '#fff'
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, scales: { r: { ticks: { display: false }, grid: { color: light } } } }
+        });
+
+        // Human vs AI (Diverging Tornado)
+        new Chart(document.getElementById('divergingChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Teaching Skill', 'Customer Service', 'Diagnosis', 'Songwriting', 'Driving', 'Hiring'],
+                datasets: [
+                    { label: 'Better than Humans', data: [34, 32, 22, 21, 22, 15], backgroundColor: blue },
+                    { label: 'Worse than Humans', data: [-26, -33, -38, -37, -36, -47], backgroundColor: gray }
+                ]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { x: { stacked: true, ticks: { callback: v => Math.abs(v) + '%' } }, y: { stacked: true } }
+            }
+        });
+
+        // Demographic Radar
+        new Chart(document.getElementById('demoRadar'), {
+            type: 'radar',
+            data: {
+                labels: ['Info Search', 'Schoolwork', 'Summarizing', 'Casual Chat', 'News'],
+                datasets: [
+                    { label: 'Black Teens', data: [61, 60, 50, 22, 29], borderColor: blue, backgroundColor: blue+'22' },
+                    { label: 'White Teens', data: [52, 49, 37, 14, 15], borderColor: gray, backgroundColor: gray+'22' }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        // Boundary Chart (Stacked Percentage)
+        new Chart(document.getElementById('boundaryChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Search', 'Fun', 'Summarize', 'Schoolwork', 'Casual Chat', 'Emotional'],
+                datasets: [
+                    { label: 'Parent OK', data: [79, 69, 64, 58, 28, 18], backgroundColor: blue },
+                    { label: 'Not OK', data: [6, 11, 19, 23, 45, 58], backgroundColor: yellow }
+                ]
+            },
+            options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false }
+        });
+    </script>
+</body>
+</html>
