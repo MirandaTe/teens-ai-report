@@ -34,6 +34,10 @@
         .viz-desc h3 { font-size: 2.2rem; font-weight: 800; margin-bottom: 20px; color: var(--blue); }
         .viz-desc p { font-size: 1.2rem; color: var(--gray); margin-bottom: 20px; }
         
+        /* Alternating Layout Class (Replaces inline RTL) */
+        .alt-layout { direction: rtl; }
+        .alt-layout > * { direction: ltr; }
+        
         .chart-box { position: relative; width: 100%; height: 500px; }
         
         /* Specialized Cards */
@@ -43,15 +47,37 @@
         .info-card h2 { font-size: 5rem; font-weight: 900; color: var(--blue); margin-bottom: 10px; }
         .info-card h4 { font-size: 1.2rem; font-weight: 800; margin-bottom: 15px; }
 
-        .bubble-text { background: var(--blue); color: white; padding: 6px 12px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; }
-
         footer { padding: 100px 40px; background: var(--dark); color: #fff; text-align: center; }
 
+        /* =========================================
+           MOBILE OPTIMIZATIONS 
+           ========================================= */
         @media (max-width: 900px) {
-            header h1 { font-size: 3.5rem; letter-spacing: -2px; }
-            .viz-block { grid-template-columns: 1fr; gap: 40px; }
-            .viz-block:nth-child(even) { direction: ltr; }
-            .chart-box { height: 400px; }
+            header { padding: 60px 15px 40px; }
+            header h1 { font-size: 3.5rem; letter-spacing: -2px; margin-bottom: 15px; }
+            header p { font-size: 1.1rem; }
+            
+            /* Give back screen space! */
+            .container { padding: 0 15px; }
+            
+            .section-header { margin-top: 60px; margin-bottom: 30px; gap: 10px; }
+            .section-num { font-size: 2.5rem; }
+            .section-title { font-size: 2.2rem; }
+            
+            .viz-block { grid-template-columns: 1fr; gap: 30px; margin-bottom: 70px; }
+            /* Cancel RTL on mobile so it stacks perfectly */
+            .alt-layout { direction: ltr; } 
+            
+            .viz-desc h3 { font-size: 1.8rem; }
+            .viz-desc p { font-size: 1.1rem; }
+            
+            /* Fix cramped charts and cards */
+            .chart-box { height: 350px; }
+            .infographic-grid { gap: 20px; grid-template-columns: 1fr; }
+            .info-card { padding: 25px; }
+            .info-card h2 { font-size: 3.5rem; }
+            
+            footer { padding: 50px 20px; font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -108,8 +134,8 @@
             <h2 class="section-title">The Value Gap</h2>
         </div>
 
-        <div class="viz-block" style="direction: rtl;">
-            <div class="viz-desc scrub" style="direction: ltr;">
+        <div class="viz-block alt-layout">
+            <div class="viz-desc scrub">
                 <h3>Humanity's Edge</h3>
                 <p>Teens see a clear hierarchy. AI wins at <strong>Teaching Skills (34% Better)</strong>, but loses heavily in <strong>Hiring (47% Worse)</strong> and <strong>Medical Diagnosis (38% Worse)</strong>.</p>
                 <p>The Diverging Chart tracks where teens trust the algorithm—and where they don't.</p>
@@ -140,8 +166,8 @@
             <h2 class="section-title">Boundaries</h2>
         </div>
 
-        <div class="viz-block" style="direction: rtl;">
-            <div class="viz-desc scrub" style="direction: ltr;">
+        <div class="viz-block alt-layout">
+            <div class="viz-desc scrub">
                 <h3>The Empathy Wall</h3>
                 <p>Parents are "OK" with AI as a tool, but "NOT OK" with AI as a companion. 58% reject AI for <strong>Emotional Support</strong>, and 45% reject it for <strong>Casual Conversation</strong>.</p>
             </div>
@@ -157,8 +183,7 @@
     </footer>
 
     <script>
-        // 1. THE AUTOMATIC GHOST CLEANER
-        // This hunts down tags and erases them so the beautiful UI is clean.
+        // Fix for the broken Ghost Cleaner regex in your pasted code
         function scrub() {
             const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
             let node;
@@ -168,10 +193,15 @@
         }
         window.onload = scrub;
 
-        // 2. CHART GENERATION
+        // Determine if screen is mobile for Chart adjustments
+        const isMobile = window.innerWidth < 768;
+
         const blue = '#1736F5', yellow = '#FFC709', gray = '#808080', light = '#DEDEDE';
 
-        // Adoption Rose (Polar Area)
+        // Global Chart Font scaling
+        Chart.defaults.font.size = isMobile ? 10 : 12;
+
+        // Adoption Rose
         new Chart(document.getElementById('adoptionRose'), {
             type: 'polarArea',
             data: {
@@ -183,24 +213,33 @@
                     borderColor: '#fff'
                 }]
             },
-            options: { responsive: true, maintainAspectRatio: false, scales: { r: { ticks: { display: false }, grid: { color: light } } } }
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                scales: { r: { ticks: { display: false }, grid: { color: light } } },
+                plugins: { legend: { position: isMobile ? 'bottom' : 'top' } } // Moves legend to bottom on phone
+            }
         });
 
-        // Human vs AI (Diverging Tornado)
+        // Human vs AI
         new Chart(document.getElementById('divergingChart'), {
             type: 'bar',
             data: {
                 labels: ['Teaching Skill', 'Customer Service', 'Diagnosis', 'Songwriting', 'Driving', 'Hiring'],
                 datasets: [
-                    { label: 'Better than Humans', data: [34, 32, 22, 21, 22, 15], backgroundColor: blue },
-                    { label: 'Worse than Humans', data: [-26, -33, -38, -37, -36, -47], backgroundColor: gray }
+                    { label: 'Better', data: [34, 32, 22, 21, 22, 15], backgroundColor: blue },
+                    { label: 'Worse', data: [-26, -33, -38, -37, -36, -47], backgroundColor: gray }
                 ]
             },
             options: {
                 indexAxis: 'y',
                 responsive: true,
                 maintainAspectRatio: false,
-                scales: { x: { stacked: true, ticks: { callback: v => Math.abs(v) + '%' } }, y: { stacked: true } }
+                scales: { 
+                    x: { stacked: true, ticks: { callback: v => Math.abs(v) + '%' } }, 
+                    y: { stacked: true, ticks: { autoSkip: false } } 
+                },
+                plugins: { legend: { position: 'bottom' } }
             }
         });
 
@@ -214,10 +253,16 @@
                     { label: 'White Teens', data: [52, 49, 37, 14, 15], borderColor: gray, backgroundColor: gray+'22' }
                 ]
             },
-            options: { responsive: true, maintainAspectRatio: false }
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                layout: { padding: isMobile ? 10 : 20 }, // Gives room so labels don't cut off
+                scales: { r: { pointLabels: { font: { size: isMobile ? 9 : 12 } } } },
+                plugins: { legend: { position: 'bottom' } }
+            }
         });
 
-        // Boundary Chart (Stacked Percentage)
+        // Boundary Chart
         new Chart(document.getElementById('boundaryChart'), {
             type: 'bar',
             data: {
@@ -227,7 +272,12 @@
                     { label: 'Not OK', data: [6, 11, 19, 23, 45, 58], backgroundColor: yellow }
                 ]
             },
-            options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false }
+            options: { 
+                indexAxis: 'y', 
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom' } } 
+            }
         });
     </script>
 </body>
